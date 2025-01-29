@@ -27,7 +27,7 @@ public class Tester {
         this.currQuestionpoints = 0;
         this.points = 0;
     }
-    
+
     public void reset() {
         this.nTestCases = 0;
         this.nPassed = 0;
@@ -54,22 +54,26 @@ public class Tester {
 
     private void expectedPassed(String input, String expected, String actual) {
         this.appendInputExpectedActual(this.expectedPassed, input, expected, actual);
-        this.expectedPassed.append("\n\t").append(TesterMessagesEnum.RESULT.getMessage()).append(TesterMessagesEnum.PASSED.getMessage()).append("\n");
+        this.expectedPassed.append("\n\t").append(TesterMessagesEnum.RESULT.getMessage())
+                .append(TesterMessagesEnum.PASSED.getMessage()).append("\n");
     }
 
     private void expectedActualBuilder(String input, String expected, String actual) {
         this.appendInputExpectedActual(this.expectedActualBuilder, input, expected, actual);
-        this.expectedActualBuilder.append("\n\t").append(TesterMessagesEnum.RESULT.getMessage()).append(TesterMessagesEnum.FAILED.getMessage()).append("\n");
+        this.expectedActualBuilder.append("\n\t").append(TesterMessagesEnum.RESULT.getMessage())
+                .append(TesterMessagesEnum.FAILED.getMessage()).append("\n");
     }
 
     private void expectedAll(String input, String expected, String actual, boolean hasPassed) {
         this.appendInputExpectedActual(this.expectedAll, input, expected, actual);
-        this.expectedAll.append("\n\t").append(TesterMessagesEnum.RESULT.getMessage()).append(this.getCurrentPassedMessage(hasPassed)).append("\n");
+        this.expectedAll.append("\n\t").append(TesterMessagesEnum.RESULT.getMessage())
+                .append(this.getCurrentPassedMessage(hasPassed)).append("\n");
     }
 
     private void expectedAllTest(String input, String expected, String actual, boolean hasPassed) {
         this.appendInputExpectedActual(this.expectedAllTestsBuilder, input, expected, actual);
-        this.expectedAllTestsBuilder.append("\n\t").append(TesterMessagesEnum.RESULT.getMessage()).append(this.getCurrentPassedMessage(hasPassed)).append("\n");
+        this.expectedAllTestsBuilder.append("\n\t").append(TesterMessagesEnum.RESULT.getMessage())
+                .append(this.getCurrentPassedMessage(hasPassed)).append("\n");
     }
 
     private void appendInputExpectedActual(StringBuilder sb, String input, String expected, String actual) {
@@ -123,12 +127,13 @@ public class Tester {
         this.expectedAllTest(input, expected, actual, hasPassed);
         return hasPassed;
     }
-    
+
     public void initQuestionTest(TesterQuestionEnum testQuestionEnum) {
         this.buildQuestionTitleName(testQuestionEnum);
         this.maxPoints += testQuestionEnum.getMaxPoints();
         this.currQuestionpoints = testQuestionEnum.getMaxPoints();
     }
+
     public void updatePoints() {
         this.points += this.currQuestionpoints;
     }
@@ -146,12 +151,13 @@ public class Tester {
 
     public StringBuilder finishTest() {
         StringBuilder sb = new StringBuilder();
-        sb.append(TesterMetadataMessagesEnum.QUESTION.getMessage()).append(this.getQuestion()).append(" ").append(TesterMetadataMessagesEnum.TEST.getMessage()).append("\n");
+        sb.append(TesterMetadataMessagesEnum.QUESTION.getMessage()).append(this.getQuestion()).append(" ")
+                .append(TesterMetadataMessagesEnum.TEST.getMessage()).append("\n");
         sb.append(TesterMetadataMessagesEnum.TEST_CASE_NUMBER.getMessage()).append(this.nTestCases).append("\n");
         sb.append(TesterMetadataMessagesEnum.PASSED.getMessage()).append(this.nPassed).append("\n");
         sb.append(TesterMetadataMessagesEnum.FAILED.getMessage()).append(this.nFailed).append("\n");
         sb.append(TesterMetadataMessagesEnum.ERRORS.getMessage()).append(this.nErrors).append("\n");
-        this.appendPassedOrFailedCases(sb);   
+        this.appendPassedOrFailedCases(sb);
         return sb;
     }
 
@@ -160,7 +166,7 @@ public class Tester {
     }
 
     private void appendPassedOrFailedCases(StringBuilder sb) {
-        if (this.hasPassed()){
+        if (this.hasPassed()) {
             sb.append(TesterMetadataMessagesEnum.ALL_TESTS_ARE_PASSED.getMessage());
         } else {
             sb.append(this.expectedActualBuilder.toString());
@@ -176,7 +182,7 @@ public class Tester {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         String finished = this.finishTest().toString();
         this.reset();
         return finished;
@@ -185,7 +191,7 @@ public class Tester {
     public void showAllTests() {
         System.out.println(this.expectedAllTestsBuilder.toString());
     }
- 
+
     public void showAll() {
         System.out.println(this.expectedAll.toString());
     }
@@ -199,12 +205,12 @@ public class Tester {
     }
 
     public void gotExceptions() {
-        this.nErrors++; 
+        this.nErrors++;
     }
 
-    public void conclusion(){
-        
+    public void conclusion() {
+
         System.out.println("Your score is: " + this.points + "/" + this.maxPoints + " available points");
     }
-    
+
 }
