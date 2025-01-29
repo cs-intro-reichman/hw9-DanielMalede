@@ -59,6 +59,16 @@ public class LinkedList {
 					"index must be between 0 and size");
 		}
 		//// Replace the following statement with your code
+		Node current = (index == size) ? last : first;
+		while (current != null && index > 0) {
+			current = current.next;
+			index--;
+		}
+		if (current != null) {
+			return current;
+
+		}
+		;
 		return null;
 	}
 
@@ -84,6 +94,36 @@ public class LinkedList {
 	 */
 	public void add(int index, MemoryBlock block) {
 		//// Write your code here
+
+		Node newNode = new Node(block);
+
+		if (index == 0) {
+			newNode.next = first;
+			first = newNode;
+			if (size == 0) {
+				last = newNode;
+				first = last;
+			}
+			size++;
+			return;
+		}
+
+		if (index == size) {
+			if (size == 0) {
+				first = newNode;
+				last = first;
+			} else {
+				last.next = newNode;
+			}
+			last = newNode;
+			size++;
+			return;
+		} else {
+			Node prev = getNode(index - 1);
+			newNode.next = prev.next;
+			prev.next = newNode;
+		}
+		size++;
 	}
 
 	/**
@@ -95,6 +135,7 @@ public class LinkedList {
 	 */
 	public void addLast(MemoryBlock block) {
 		//// Write your code here
+		add(size, block);
 	}
 
 	/**
@@ -107,6 +148,7 @@ public class LinkedList {
 	 */
 	public void addFirst(MemoryBlock block) {
 		//// Write your code here
+		add(0, block);
 	}
 
 	/**
@@ -121,7 +163,11 @@ public class LinkedList {
 	 */
 	public MemoryBlock getBlock(int index) {
 		//// Replace the following statement with your code
-		return null;
+		if (index < 0 || index >= size) {
+			throw new IndexOutOfBoundsException("index must be between 0 and size");
+		}
+		Node targetNode = getNode(index);
+		return targetNode.block;
 	}
 
 	/**
