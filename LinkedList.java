@@ -1,3 +1,6 @@
+import java.util.NoSuchElementException;
+import java.util.Objects;
+
 /**
  * Represents a list of Nodes.
  */
@@ -179,6 +182,11 @@ public class LinkedList {
 	 */
 	public int indexOf(MemoryBlock block) {
 		//// Replace the following statement with your code
+		for (int i = 0; i < size; i++) {
+			if (Objects.equals(getBlock(i), block)) {
+				return i;
+			}
+		}
 		return -1;
 	}
 
@@ -190,6 +198,24 @@ public class LinkedList {
 	 */
 	public void remove(Node node) {
 		//// Write your code here
+		int index = indexOf(node.block);
+
+		if (index < 0) {
+			throw new IllegalArgumentException("Node not found in the list.");
+		}
+
+		if (index == 0) {
+			first = first.next;
+			if (--size == 0)
+				last = null;
+		} else {
+			Node previous = getNode(index - 1);
+			previous.next = node.next;
+			if (node == last)
+				last = previous;
+			size--;
+		}
+
 	}
 
 	/**
@@ -202,6 +228,12 @@ public class LinkedList {
 	 */
 	public void remove(int index) {
 		//// Write your code here
+		if (index < 0 || index >= size) {
+			throw new IllegalArgumentException("index must be between 0 and size");
+		}
+
+		remove(getNode(index));
+
 	}
 
 	/**
@@ -214,6 +246,11 @@ public class LinkedList {
 	 */
 	public void remove(MemoryBlock block) {
 		//// Write your code here
+		int index = indexOf(block);
+		if (index < 0)
+			throw new IllegalArgumentException("index must be between 0 and size");
+		remove(index);
+
 	}
 
 	/**
@@ -228,6 +265,33 @@ public class LinkedList {
 	 */
 	public String toString() {
 		//// Replace the following statement with your code
-		return "";
+		if (size == 0)
+			return "";
+
+		String result = first.block + " ";
+		Node current = first.next;
+
+		while (current != null) {
+			result += current.block + " ";
+			current = current.next;
+		}
+
+		return result;
+
 	}
+
+	public void sort() {
+		for (int i = 0; i < size - 1; i++) {
+			for (int j = 0; j < size - i - 1; j++) {
+				Node currentNode = getNode(j);
+				Node nextNode = currentNode.next;
+				if (currentNode.block.baseAddress > nextNode.block.baseAddress) {
+					MemoryBlock tempBlock = currentNode.block;
+					currentNode.block = nextNode.block;
+					nextNode.block = tempBlock;
+				}
+			}
+		}
+	}
+
 }
